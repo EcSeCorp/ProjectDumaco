@@ -23,7 +23,7 @@ use App\Imports\TareaImport;
 use App\Imports\PmpImport;
 use App\Imports\ipplaningpmpImport;
 use App\Imports\PtpImport;
-
+use App\Imports\ipplaningptpImport;
 
 
 class excelController extends Controller
@@ -75,6 +75,11 @@ class excelController extends Controller
     {
         Excel::import(new PtpImport,request()->file('fileexcel'));
     }
+    
+    public function importExcelIpPlaningPTP()
+    {
+        Excel::import(new ipplaningptpImport,request()->file('fileexcel'));
+    }
 
     public function ImportarExcel(Request $request)
     {
@@ -107,6 +112,10 @@ class excelController extends Controller
         else if($tabla == 'Ptp')
         {
             $this->importExcelPtp();   
+        }
+        else if($tabla == 'IpPlaningPTP')
+        {
+            $this->importExcelIpPlaningPTP();
         }
 
         return redirect()->route('bandeja')->with(array(

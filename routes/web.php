@@ -57,3 +57,12 @@ Route::post('/estado',array(
     'as' => 'changeState',
     'uses' => 'usuarioController@EstadoUsuario'
 ));
+
+Route::get('/config',function(){
+    return view('Usuarios.userconfig');
+})->name('configUser');
+
+Route::post('/changePassword',array(
+    'as' => 'changePassword',
+    'uses' => 'usuarioController@configUser'
+));

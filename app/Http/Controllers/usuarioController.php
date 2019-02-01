@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\agregarUsuario;
 use Illuminate\Pagination\Paginator; //para paginar la lista de usuarios
 use Illuminate\Pagination\LengthAwarePaginator; //para paginar la lista de usuarios
+use Illuminate\Support\Facades\Mail; //para usar el atributo Mail
+use App\Mail\alertUser;
 
 class usuarioController extends Controller
 {
@@ -86,7 +88,9 @@ class usuarioController extends Controller
         $new_user->DT_FECHA_CREACION = now();
         $new_user->CH_ID_USUARIO_CREACION = $user->CH_ID_USUARIO;
         $new_user->save();  
-        
+
+        //Esta linea envia el correo electronico 
+        Mail::to($new_user->VC_EMAIL)->send(new alertUser($new_user));
         return redirect()->route('listausuarios');
 
     }
@@ -107,7 +111,7 @@ class usuarioController extends Controller
        }
        else{
            $usuario->VC_ESTADO = 'HABILITADO';
-           $usuario->save();
+           $usuario->save();    
            //cambio de estado en cascada 
            usuarioModel::where('CH_ID_USUARIO_CREACION',$usuario->CH_ID_USUARIO)
                         ->update(['VC_ESTADO' => 'HABILITADO']);
@@ -115,9 +119,31 @@ class usuarioController extends Controller
         return redirect()->route('listausuarios');
     }
 
-    public function configUser()
+    public function configUser(Request $request)
     {
         $usuarioNow = session('usu');
+
+        //Procedemos a verificar las nuevas contraseñas
+        $newPassword = $request->input('newPassword');
+        $confirmPassword = $request->input('confirmPassword');
+
+        if(empty($newPassword) || empty($confirmPassword) )
+        {
+            return redirect()->route('configUser')->with(array(
+                'message' => 'Debe llenar ambos campos'
+            ));  
+        }else if($newPassword != $confirmPassword)
+        {
+            return redirect()->route('configUser')->with(array(
+                'message' => 'Las contraseñas no son iguales'
+            ));
+        }else{
+                $usuarioSave = usuarioModel::where('CH_ID_USUARIO',$usuarioNow->CH_ID_USUARIO)
+                                            ->update(['VC_PASSWORD' => $confirmPassword]);
+            return redirect()->route('configUser')->with(array(
+                'messageAcept' => 'Tu clave ha sido cambiada exitosamente'
+            ));
+        }
     }
     
 }
