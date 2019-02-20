@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage; //Para usar el almacenamiento
+use Illuminate\Support\Facades\DB; //para manejar la bd
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -28,7 +29,6 @@ use App\Imports\ipplaningptpImport;
 
 class excelController extends Controller
 {
-   
     public function  export()
     {
         return Excel::download(new UsersExport,'users.xlsx');
@@ -53,11 +53,16 @@ class excelController extends Controller
 
     public function importExcelNodo()
     {
+        $usuario_now = session('usu');
+
+        DB::table('NODO')->where('IN_ID_CLIENTE','=',$usuario_now->IN_ID_CLIENTE)->delete();
         Excel::import(new NodoImport, request()->file('fileexcel'));
     }
     
     public function importExcelTarea()
     {
+        $usuario_now = session('usu');
+        DB::table('TAREA')->where('IN_ID_CLIENTE','=',$usuario_now->IN_ID_CLIENTE)->delete();
         Excel::import(new TareaImport, request()->file('fileexcel'));
     }
 

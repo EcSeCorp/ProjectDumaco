@@ -1,8 +1,20 @@
 @extends('layouts.index')
-
+@php
+     $session = session('usu');
+@endphp
 @section('content')
-<div class="container">
-<a class="btn btn-outline-dark" href="#" data-toggle="modal" data-target="#addUser">Nuevo Usuario</a>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <a class="btn btn-outline-dark float-left" href="#" data-toggle="modal" data-target="#addUser">Nuevo Usuario</a>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            @if($session->CH_ID_PERFIL == '00000001')
+            <a class="btn btn-outline-dark float-right"href="#" data-toggle="modal" data-target="#addCliente">Nuevo Cliente</a>
+            @endif
+        </div>
+    </div>
 </div>
 <br/>
 <div class="table-responsive">
@@ -72,7 +84,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="inputGroupPrepend">@</span>
                                             </div>
-                                                <input type="text" class="form-control" name="username" placeholder="Username" aria-describedby="inputGroupPrepend" required>
+                                                <input type="text" class="form-control" name="username"  placeholder="Username" aria-describedby="inputGroupPrepend" required>
                                             <div class="invalid-feedback">
                                                 Please choose a username.
                                             </div>
@@ -83,9 +95,13 @@
 			    					<div class="form-group">
 			    						<select name="perfiles" class=" custom-select form-control" >
                                             <option selected>Escoger un Perfil</option>
+                                            @if($session->CH_ID_PERFIL == '00000001')
                                             <option value="00000001">Administrador</option>
                                             <option value="00000002">Avanzado</option>
+                                            @endif
+                                            @if($session->CH_ID_PERFIL == '00000001' || $session->CH_ID_PERFIL == '00000002')
                                             <option value="00000003">Intermedio</option>
+                                            @endif
                                             <option value="00000004">Basico</option>
                                         </select>
 			    					</div>
@@ -94,7 +110,7 @@
                             <div class="row">
 			    				<div class="col-xs-6 col-sm-6 col-md-6">
 			    					<div class="form-group">
-			                    <input type="text" name="empresa"  class="form-control input-sm" placeholder="Empresa">
+                                        <input type="text" name="empresa" id="empresa" class="form-control input-sm" placeholder="Nombre Empresa" required>
 			    					</div>
 			    				</div>
 			    				<div class="col-xs-6 col-sm-6 col-md-6">
@@ -127,7 +143,7 @@
 			    				</div>
 			    				<div class="col-xs-6 col-sm-6 col-md-6">
 			    					<div class="form-group">
-			    						<input type="text" name="numero_documento"  class="form-control input-sm" placeholder="Numero Documento" required>
+			    						<input type="text" name="numero_documento" maxlength="8" class="form-control input-sm" placeholder="Numero Documento" required>
 			    					</div>
 			    				</div>
 			    			</div>
@@ -141,12 +157,76 @@
 			    						<input type="password" name="password" id="password" class="form-control input-sm" placeholder="Password" required>
 			    					</div>
 			    				</div>
-			    				<!-- <div class="col-xs-6 col-sm-6 col-md-6">
+                                @if($session->CH_ID_PERFIL == '00000001')
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
 			    					<div class="form-group">
-			    						<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirmar Password">
+                                        <select name="cliente" class="custom-select form-control">
+                                        <option selected>Elegir Cliente</option>
+                                            @foreach($clientes as $cliente)
+                                            <option value="{{ $cliente->IN_ID_CLIENTE}}">{{ $cliente->VC_NOMBRE}}</option>
+                                            @endforeach
+                                        </select>
 			    					</div>
-			    				</div> -->
+			    				</div>
+                                @endif
 			    			</div>
+			    			
+			    			<input type="submit" value="Registrar" class="btn btn-info btn-block">
+                    </form>
+              <!-- Fin de Formulario -->
+          </div>
+          <!-- <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="{{ url('/') }}">Logout</a>
+          </div> -->
+        </div>
+      </div>
+</div>
+<!-- Fin del Modal -->
+
+<!-- Modal para agregar Cliente -->
+<div class="modal fade" id="addCliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Registrar Cliente</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <!-- Ingreso de Formulario -->
+                    <form role="form" action="{{ route('addCliente')}}" method="POST">
+                            <div class="row">
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			                    <input type="text" name="cliente"  class="form-control input-sm" placeholder="Nombre Cliente">
+			    					</div>
+			    				</div>
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			    						<input type="text" name="ruc" id="RUC" minlength="11" maxlength="11" class="form-control input-sm" placeholder="RUC" required>
+			    					</div>
+			    				</div>
+			    			</div>
+			    			<div class="row">
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			                    <input type="text" name="pais" id="pais" class="form-control input-sm" placeholder="Pais" required>
+			    					</div>
+			    				</div>
+			    				<div class="col-xs-6 col-sm-6 col-md-6">
+			    					<div class="form-group">
+			    						<input type="text" name="ciudad" id="ciudad" class="form-control input-sm" placeholder="Ciudad" required>
+			    					</div>
+			    				</div>
+			    			</div>
+			    			<div class="form-group">
+			    				<input type="text" name="direccion"  class="form-control input-sm" placeholder="Direccion" required>
+			    			</div>
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" class="form-control input-sm" placeholder="Email" required>
+                            </div>
 			    			
 			    			<input type="submit" value="Registrar" class="btn btn-info btn-block">
                     </form>

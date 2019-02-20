@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; //Para jugar con la BD
 use App\Models\usuarioModel;
+use App\Models\clienteModel;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\agregarUsuario;
@@ -54,19 +55,27 @@ class usuarioController extends Controller
         }else if($usuarioNow->CH_ID_PERFIL == '00000002')
         {
             $usuarios = usuarioModel::where('CH_ID_PERFIL','00000003')
+                                    ->where('IN_ID_CLIENTE',$usuarioNow->IN_ID_CLIENTE)
                                     ->orWhere('CH_ID_PERFIL','00000004')
+                                    ->where('IN_ID_CLIENTE',$usuarioNow->IN_ID_CLIENTE)
                                     ->get();
         }else if($usuarioNow->CH_ID_PERFIL == '00000003')
         {
-            $usuarios = usuarioModel::where('CH_ID_PERFIL','00000004')->get();
+            $usuarios = usuarioModel::where([
+                ['CH_ID_PERFIL','=','00000004'],
+                ['IN_ID_CLIENTE','=',$usuarioNow->IN_ID_CLIENTE], 
+                                            ])
+                                     ->get();
         }else if($usuarioNow->CH_ID_PERFIL == '00000004')
         {
             $usuarios = usuarioModel::where('CH_ID_PERFIL','00000004')->get();
         }
-
-       return view('Usuarios.ListaUsuarios',['usuarios'=>$usuarios]);
-    //    var_dump($usuarioNow);
-    //    die();
+        $clientes = clienteModel::all();
+        /* COMPACT busca variables con esos nombres en la table de simbolos actual
+        y las añada al array si te olvidaras tambien podrias delvover a la vista un array(
+            'usuarios' =>$usuarios
+        )*/
+        return view('Usuarios.ListaUsuarios',compact('usuarios','clientes'));
     }
 
     public function AgregarUsuarios(Request $request)
@@ -85,6 +94,13 @@ class usuarioController extends Controller
         $new_user->CH_NUMERO_DOCUMENTO = $request->numero_documento;
         $new_user->VC_EMAIL = $request->email;
         $new_user->VC_PASSWORD = $request->password;
+        if($user->CH_ID_PERFIL == '00000001')
+        {
+            $new_user->IN_ID_CLIENTE = $request->cliente;
+        }else{
+            $new_user->IN_ID_CLIENTE = $user->IN_ID_CLIENTE;
+        }
+        
         $new_user->DT_FECHA_CREACION = now();
         $new_user->CH_ID_USUARIO_CREACION = $user->CH_ID_USUARIO;
         $new_user->save();  

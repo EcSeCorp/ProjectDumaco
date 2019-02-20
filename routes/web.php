@@ -53,6 +53,11 @@ Route::post('/addUser',array(
     'uses' => 'usuarioController@AgregarUsuarios'
 ));
 
+Route::post('/addCliente',array(
+    'as' => 'addCliente',
+    'uses' => 'clienteController@agregarCliente'
+));
+
 Route::post('/estado',array(
     'as' => 'changeState',
     'uses' => 'usuarioController@EstadoUsuario'
@@ -66,3 +71,31 @@ Route::post('/changePassword',array(
     'as' => 'changePassword',
     'uses' => 'usuarioController@configUser'
 ));
+
+Route::get('/tareas',array(
+    'as' => 'ListaTareas',
+    'uses' => 'tareaController@listar'
+));
+
+Route::post('/busquedaNodo',array(
+    'as' => 'busquedaNodo',
+    'uses' => 'tareaController@listarNodo'
+));
+
+// Route::get('/listadoc/{tipodoc}',array(
+//     'as' => 'listadoc',
+//     'uses' => 'documentoController@listarDocumentosxTarea'
+// )
+// );
+
+Route::post('/listadoc',array(
+    'as' => 'listadoc',
+    'uses' => 'documentoController@listarDocumentosxTarea'
+));
+
+Route::post('/mostrardocumento', array(
+    'as' => 'mostrardocumento',
+    'uses' => 'documentoController@mostrarDocumentos'
+));
+
+//Seccion Documentos

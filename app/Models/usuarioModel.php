@@ -15,8 +15,8 @@ class usuarioModel extends Model
     protected $fillable = [
     'VC_PASSWORD','CH_ID_PERFIL','VC_NOMBRE',
     'VC_APELLIDO_PATERNO','VC_APELLIDO_MATERNO','CH_ID_DOCUMENTO',
-    'CH_NUMERO_DOCUMENTO','VC_ESTADO','VC_EMAIL','VC_EMPRESA','DT_FECHA_CREACION',
-    'CH_ID_USUARIO_CREACION'
+    'CH_NUMERO_DOCUMENTO','VC_ESTADO','VC_EMAIL','VC_EMPRESA','IN_ID_CLIENTE','CH_ID_USUARIO_CREACION',
+    'DT_FECHA_CREACION','CH_ID_USUARIO_UPDATE','DT_FECHA_UPDATE'
     ];
 
     public function perfil()
@@ -27,5 +27,10 @@ class usuarioModel extends Model
     public function documentoIdentidad()
     {
         return $this->belongsTo('App\Models\documentoIdentidadModel','CH_ID_DOCUMENTO');
+    }
+
+    public function cliente()
+    {
+        return $this->belongsTo('App\Models\clienteModel','IN_ID_CLIENTE');
     }
 }

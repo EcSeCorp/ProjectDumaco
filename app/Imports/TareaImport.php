@@ -49,12 +49,13 @@ class TareaImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChunkRe
            'DT_FIN_INST' =>$this->obtenerFecha($fechafin),
             'VC_PROYECTO' => $row['PROYECTO'],
             'VC_TIP_NODO_A' => $row['Tipo de nodo A'],
-            'VC_ID_NODO_A' => $row['Codigo A'],
+            'VC_NODO_IIBB_A' => $row['Codigo A'],
             'VC_TIP_NODO_B' => $row['Tipo de nodo B'],
             'VC_ID_NODO_B' => $row['Codigo B'],
             'VC_SECTOR_AP' => $row['SECTOR AP'],
             'DT_FECHA_CREACION' => now(),
-            'CH_ID_USUARIO_CREACION' => $user->CH_ID_USUARIO
+            'CH_ID_USUARIO_CREACION' => $user->CH_ID_USUARIO,
+            'IN_ID_CLIENTE' => $user->IN_ID_CLIENTE
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\nodoModel;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Facades\DB; //para manejar la bd
 
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -35,7 +36,7 @@ class NodoImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChunkRea
 
         return new nodoModel([
             'CH_CODIGO_NODO' => $row['CODIGO'],
-            'VC_PROYECTO' => $row['REGION'],
+            'VC_REGION' => $row['REGION'],
             'VC_NOMBRE' => $row['NOMBRE DEL NODO'],
             'VC_DEPARTAMENTO' => $row['REGION DEPARTAMENTO'],
             'VC_PROVINCIA' => $row['PROVINCIA'],
@@ -47,7 +48,8 @@ class NodoImport implements ToModel,WithHeadingRow,WithBatchInserts,WithChunkRea
             'IN_ANILLO' => $row['ANILLO'],
             'IN_ALTURA_TORRE' => $row['TORRE ALTURA (m)'],
             'DT_FECHA_CREACION' => now(),
-            'CH_ID_USUARIO' => $user->CH_ID_USUARIO
+            'CH_ID_USUARIO_CREACION' => $user->CH_ID_USUARIO,
+            'IN_ID_CLIENTE' => $user->IN_ID_CLIENTE
         ]);
     }
 
