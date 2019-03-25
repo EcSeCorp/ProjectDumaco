@@ -98,4 +98,8 @@ Route::post('/mostrardocumento', array(
     'uses' => 'documentoController@mostrarDocumentos'
 ));
 
+Route::post('/guardarexcel',array(
+    'as' => 'guardarexcel',
+    'uses' => 'excelController@guardarExcel'
+));
 //Seccion Documentos

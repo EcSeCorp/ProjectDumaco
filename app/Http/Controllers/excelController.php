@@ -29,6 +29,17 @@ use App\Imports\ipplaningptpImport;
 
 class excelController extends Controller
 {
+    public function guardarExcel(Request $request)
+    {
+        $excel = $request->file('excel');
+        var_dump($excel);
+        // if($excel)
+        // {
+        //     $excel_path = $excel->getClientOriginalName();
+        //     \Storage::disk('excelfiles')->put($excel_path,\File::get($excel));
+        // }
+    }
+
     public function  export()
     {
         return Excel::download(new UsersExport,'users.xlsx');
