@@ -32,13 +32,6 @@
                 <input type="submit" class="btn btn-success" value="Cargar"/>
             </div>
         </form>
-
-        <form action="{{ route('guardarexcel') }}" method="POST" enctype="multipart/form-data">
-            <div class="row">
-                <input type="file" name="excel" />
-                <input type="submit" value="cargar" />
-            </div>
-        </form>
     </div>
     
     @endsection

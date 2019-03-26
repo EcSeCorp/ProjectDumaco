@@ -26,6 +26,9 @@ use App\Imports\ipplaningpmpImport;
 use App\Imports\PtpImport;
 use App\Imports\ipplaningptpImport;
 
+//consola de artisan
+use Illuminate\Console\Command;
+use Artisan;
 
 class excelController extends Controller
 {
@@ -138,4 +141,5 @@ class excelController extends Controller
             'message'=>'El Archivo se ha subido Correctamente'
         ));
     }
+
 }
