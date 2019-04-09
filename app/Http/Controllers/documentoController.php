@@ -29,7 +29,7 @@ class documentoController extends Controller
 
         $documentos = documentoModel::where('CH_ID_DOCUMENTO',$id_documento)->first();
         $tarea = tareaModel::where('CH_ID_LINK',$id_tarea)->first();
-        if($id_documento == '00000001')
+        if($id_documento == '00000002')
         {
             return view('documentos.PruebaInterferencia',compact('documentos','tarea'));
         }
