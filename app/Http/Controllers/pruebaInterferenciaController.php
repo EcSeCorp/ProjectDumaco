@@ -33,7 +33,7 @@ class pruebaInterferenciaController extends Controller
         $doc1->CH_ID_USUARIO_CREACION = $usuario->CH_ID_USUARIO;
         $doc1->DT_FECHA_CREACION = \now();
         $doc1->IN_ID_CLIENTE = $usuario->IN_ID_CLIENTE;
-        
+
         $doc1->save();
     }
 
@@ -52,8 +52,7 @@ class pruebaInterferenciaController extends Controller
 
     }
 
-    public function ActualizarDocumento()
-    {
-
+    public function EditarDocumento(){
+        
     }
 }
