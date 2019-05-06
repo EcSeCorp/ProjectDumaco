@@ -12,3 +12,76 @@
 	box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
 }
 /* Fin */
+
+/* CSS para los checkbox de los documentos */
+.switch_box{
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	/* max-width: 120px; */
+	/* min-width: 120px; */
+	max-width: 75px;
+	min-width: 75px;
+	height: 400px;
+	-webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-box-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
+}
+
+.box_1{
+	background: #eee;
+}
+
+input[type="checkbox"].switch_1{
+	font-size: 30px;
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+	        appearance: none;
+	/* width: 3.5em;
+	height: 1.5em; */
+	width:  3.0em;
+	height: 1.0em;
+	background: #ddd;
+	border-radius: 3em;
+	position: relative;
+	cursor: pointer;
+	outline: none;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+  }
+  
+  input[type="checkbox"].switch_1:checked{
+	background: #58d16a;
+  }
+  
+  input[type="checkbox"].switch_1:after{
+	position: absolute;
+	content: "";
+	/* width: 1.5em;
+	height: 1.5em; */
+	width: 1.0em;
+	height: 1.0em;
+	/* border-radius: 50%; */
+	border-radius: 50%;
+	background: #fff;
+	-webkit-box-shadow: 0 0 .25em rgba(0,0,0,.3);
+	        box-shadow: 0 0 .25em rgba(0,0,0,.3);
+	-webkit-transform: scale(.7);
+	        transform: scale(.7);
+	left: 0;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+  }
+  
+  input[type="checkbox"].switch_1:checked:after{
+	/* left: calc(100% - 1.5em); */
+	left: calc(100% - 1.0em);
+  }
+	
+	/* fin de los checkbox de los documentos */

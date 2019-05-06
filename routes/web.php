@@ -18,6 +18,11 @@ Route::get('/', function (){
 
 Auth::routes();
 
+Route::post('/',array(
+    'as' => 'logout',
+    'uses' => 'usuarioController@Logout'
+));
+
 //Route::get('/home', 'HomeController@index')->name('home');
 // /home : podria ponerse cualquie nombre, manda el controlador
 // el ->name('home') indica donde esta la vista
@@ -43,10 +48,16 @@ Route::get('/default',function(){
     return view('default');
 })->name('defaultx');
 
-Route::get('/lista',array(
-    'as' => 'listausuarios',
-    'uses' => 'usuarioController@ListarUsuarios'
-));
+// Route::get('/lista',array(
+//     'as' => 'listausuarios',
+//     'uses' => 'usuarioController@ListarUsuarios'
+// ));
+
+//Esto es una prueba para la lista de usuarios 
+Route::get('/lista',function(){
+    return view('Usuarios.ListUser');
+})->name('listausuarios');
+//fin de prueba 
 
 Route::post('/addUser',array(
     'as' => 'addUser',
@@ -102,4 +113,13 @@ Route::post('/guardarexcel',array(
     'as' => 'guardarexcel',
     'uses' => 'excelController@guardarExcel'
 ));
+
+//Solicitudes AJAX para enrutar ficheros 
+Route::POST('/post/ListaUsuarios','usuarioController@ListarUsuarios');
+//Fin de las rutas para AJAX
+
 //Seccion Documentos
+Route::post('/pruebaInterferencia',array(
+    'as' => 'pruebaInterferencia',
+    'uses' => 'pruebaInterferenciaController@guardarDocumento'
+));

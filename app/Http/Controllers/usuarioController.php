@@ -41,6 +41,12 @@ class usuarioController extends Controller
                 session(['usu'=>$usuario])
             ));          
     }
+    
+    public function Logout(Request $request)
+    {
+        $request->session()->flush();
+        return view('Login');
+    }
 
     public function ListarUsuarios()
     {   
@@ -75,7 +81,13 @@ class usuarioController extends Controller
         y las añada al array si te olvidaras tambien podrias delvover a la vista un array(
             'usuarios' =>$usuarios
         )*/
-        return view('Usuarios.ListaUsuarios',compact('usuarios','clientes'));
+        
+        //Devolver valores JSON para el inicio de sesion
+        return response()->json([
+            'usuarios' => $usuarios,
+            'clientes' => $clientes
+        ]);
+       // return view('Usuarios.ListaUsuarios',compact('usuarios','clientes'));
     }
 
     public function AgregarUsuarios(Request $request)
